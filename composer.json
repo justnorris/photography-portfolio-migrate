@@ -1,0 +1,17 @@
+{
+    "name": "colormelon/photography-portfolio-migrate",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "EPP_Migrate\\": "EPP_Migrate/"
+        }
+    },
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Norris",
+            "email": "im@justnorris.com"
+        }
+    ],
+    "require": {}
+}
