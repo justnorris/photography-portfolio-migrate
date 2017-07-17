@@ -3,7 +3,7 @@
 namespace Phormig\Admin;
 
 
-class MySettingsPage {
+class Settings_Page {
 	/**
 	 * Holds the values to be used in the fields callbacks
 	 */
@@ -26,11 +26,12 @@ class MySettingsPage {
 	public function add_plugin_page() {
 
 		// This page will be under "Settings"
-		add_options_page(
-			'Settings Admin',
-			'My Settings',
+		add_submenu_page(
+			'tools.php',
+			'Migrate Easy Photography Portfolio',
+			'Migrate Portfolio',
 			'manage_options',
-			'my-setting-admin',
+			'photography-portfolio-migrate',
 			[ $this, 'create_admin_page' ]
 		);
 	}
@@ -149,5 +150,5 @@ class MySettingsPage {
 }
 
 if ( is_admin() ) {
-	$my_settings_page = new MySettingsPage();
+	$settings_page = new Settings_Page();
 }
