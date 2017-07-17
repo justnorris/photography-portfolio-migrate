@@ -24,49 +24,48 @@ $__DIR = dirname( __FILE__ );
 /**
  * Define Constants
  */
-define( 'CLM_ABSPATH', $__DIR . '/' );
-define( 'CLM_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-define( 'CLM_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
-
-define( 'CLM_THEME_PATH', 'photography-portfolio/' );
-define( 'CLM_PLUGIN_THEME_PATH', CLM_ABSPATH . 'public/templates/' );
+define( 'PHORMIG_ABSPATH', $__DIR . '/' );
+define( 'PHORMIG_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'PHORMIG_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 
 
-if ( ! function_exists( 'phort_get_option' ) ) {
+function phormig_initialize() {
 
-	include( ABSPATH . "wp-includes/pluggable.php" );
+	if ( ! class_exists( 'Colormelon_Photography_Portfolio' ) ) {
 
-	function phortmig_auto_deactivate() {
+		include( ABSPATH . "wp-includes/pluggable.php" );
 
-		deactivate_plugins( plugin_basename( __FILE__ ) );
+		function phortmig_auto_deactivate() {
+
+			deactivate_plugins( plugin_basename( __FILE__ ) );
+		}
+
+		if ( current_user_can( 'activate_plugins' ) ) {
+			add_action( 'admin_init', 'phortmig_auto_deactivate' );
+			add_action(
+				'admin_notices',
+				function () {
+
+					echo '<div class="error">';
+					echo wp_kses_post(
+						__(
+							'<p>You have to activate "Easy Photography Portfolio" before activating "Easy Photography Portfolio: Migrate" plugin. Please try again.</p>'
+							,
+							'photography-portfolio-migrate'
+						)
+					);
+					echo '</div>';
+				}
+			);
+
+		}
 	}
 
-	if ( current_user_can( 'activate_plugins' ) ) {
-		add_action( 'admin_init', 'phortmig_auto_deactivate' );
-		add_action(
-			'admin_notices',
-			function () {
 
-				echo '<div class="error">';
-				echo wp_kses_post(
-					__(
-						'<p>You have to activate "Easy Photography Portfolio" before activating "Easy Photography Portfolio: Migrate" plugin. Please try again.</p>'
-						,
-						'photography-portfolio-migrate'
-					)
-				);
-				echo '</div>';
-			}
-		);
-
+	else {
+		require_once PHORMIG_ABSPATH . 'core.php';
 	}
 }
 
 
-
-// ============================================================================
-//  Initialize Photography Portfolio
-// ============================================================================
-else {
-	require_once CLM_PLUGIN_DIR_URL . 'core.php';
-}
+add_action( 'after_setup_theme', 'phormig_initialize', 250 );
