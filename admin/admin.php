@@ -24,9 +24,7 @@ class Settings_Page {
 		add_action( 'admin_menu', [ $this, 'add_plugin_page' ] );
 		$this->requirements = $requirements;
 
-		if ( ! empty( $_POST ) && check_admin_referer( 'migrate_epp' ) ) {
-			echo "<h1>Yeehah, do migration...</h1>";
-		}
+
 	}
 
 
@@ -47,10 +45,51 @@ class Settings_Page {
 	}
 
 
+	public function create_admin_page() {
+
+		if ( ! empty( $_POST ) && check_admin_referer( 'migrate_epp' ) ) {
+			$this->display_success_message();
+		}
+		else {
+			$this->display_migration_form();
+		}
+
+	}
+
+
+	public function display_success_message() {
+
+		?>
+		<div class="wrap">
+			<div class="eppmig-success">
+				<h1>Success!</h1>
+				<p>
+					<b>Migration was successful!</b><br>
+				</p>
+
+				<h2>Final Steps</h2>
+				<p>
+					Now that the portfolio data has been migrated, there are 2 tiny little steps:
+				</p>
+				<ol>
+					<li> Delete the old portfolio plugin <?php do_action( 'eppmig_plugin_name' ) ?>
+					<li> Reset your permalinks. Go to <a href="<?php echo admin_url( 'options-permalink.php' ) ?>">Settings &rarr; Permalinks</a>
+						and
+						change the URL structure, save changes, and then change the URL structure back to where it was before
+				</ol>
+			</div>
+
+		</div>
+
+		<?php
+
+	}
+
+
 	/**
 	 * Options page callback
 	 */
-	public function create_admin_page() {
+	public function display_migration_form() {
 
 		?>
 		<div class="wrap">
@@ -92,7 +131,7 @@ class Settings_Page {
 
 					<form id="eppmig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
 						<?php wp_nonce_field( 'migrate_epp' ); ?>
-						<?php submit_button( 'Migrate to Easy Photography Portfolio' ); ?>
+						<?php submit_button( 'Migrate to Easy Photography Portfolio', 'button-primary button-hero' ); ?>
 					</form>
 
 					<script>
@@ -101,7 +140,7 @@ class Settings_Page {
                         } )
 					</script>
 				<?php else: ?>
-					<a class="button-primary button-large disabled">Migrate to Easy Photography Portfolio</a>
+					<a class="button-primary button-hero button-large disabled">Migrate to Easy Photography Portfolio</a>
 				<?php endif; ?>
 			</div> <!-- .eppmig-requirements -->
 
