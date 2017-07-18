@@ -18,12 +18,7 @@ class Migrate {
 
 
 	public function migrate() {
-
-		// Don't migrate on ajax
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return false;
-		}
-
+		
 		// Make sure our post types exist
 		if ( ! post_type_exists( $this->settings['post_type'] ) || ! post_type_exists( 'phort_post' ) ) {
 			return false;

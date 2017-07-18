@@ -42,9 +42,17 @@ $requirements = new Migration_Requirements(
 if ( is_admin() ) {
 	$migration = new Migrate( $settings );
 
-	if ( $requirements->all_requirements_met()
-	     && ! empty( $_POST )
-	     && check_admin_referer( 'migrate_epp' )
+	if ( // Post request is set
+		! empty( $_POST )
+
+		// Has the correct admin referer nonce
+		&& check_admin_referer( 'migrate_epp' )
+
+		// Not doing ajax
+		&& ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+
+		// All the configuration requirements are met
+		&& $requirements->all_requirements_met()
 	) {
 		$migration->migrate();
 	}
