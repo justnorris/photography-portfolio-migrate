@@ -90,10 +90,16 @@ class Settings_Page {
 						</p>
 					</div>
 
-					<form method="post" action="tools.php?page=photography-portfolio-migrate">
+					<form id="eppmig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
 						<?php wp_nonce_field( 'migrate_epp' ); ?>
 						<?php submit_button( 'Migrate to Easy Photography Portfolio' ); ?>
 					</form>
+
+					<script>
+                        document.getElementById( 'eppmig-migrate' ).addEventListener( 'submit', function () {
+                            this.querySelector( '.button' ).setAttribute( 'disabled', true )
+                        } )
+					</script>
 				<?php else: ?>
 					<a class="button-primary button-large disabled">Migrate to Easy Photography Portfolio</a>
 				<?php endif; ?>
