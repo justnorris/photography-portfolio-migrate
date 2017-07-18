@@ -3,20 +3,30 @@
 namespace Phormig\Admin;
 
 
+use Phormig\Migrate\Migration_Requirements;
+
 class Settings_Page {
 	/**
 	 * Holds the values to be used in the fields callbacks
 	 */
 	private $options;
+	/**
+	 * @var Migration_Requirements
+	 */
+	private $requirements;
 
 
 	/**
 	 * Start up
 	 */
-	public function __construct() {
+	public function __construct( Migration_Requirements $requirements ) {
 
 		add_action( 'admin_menu', [ $this, 'add_plugin_page' ] );
-		add_action( 'admin_init', [ $this, 'page_init' ] );
+		$this->requirements = $requirements;
+
+		if ( ! empty( $_POST ) && check_admin_referer( 'migrate_epp' ) ) {
+			echo "<h1>Yeehah, do migration...</h1>";
+		}
 	}
 
 
@@ -42,113 +52,31 @@ class Settings_Page {
 	 */
 	public function create_admin_page() {
 
-		// Set class property
-		$this->options = get_option( 'my_option_name' );
 		?>
 		<div class="wrap">
-			<h1>My Settings</h1>
-			<form method="post" action="options.php">
-				<?php
-				// This prints out all hidden setting fields
-				settings_fields( 'my_option_group' );
-				do_settings_sections( 'my-setting-admin' );
-				submit_button();
-				?>
-			</form>
-		</div>
+			<h1>Easy Photography Portfolio: Migrate</h1>
+
+			<br>
+
+			<div class="eppmig-requirements">
+				<h2>Requirements</h2>
+
+				<?php $this->requirements->show_requirements(); ?>
+
+
+				<?php if ( $this->requirements->all_requirements_met() ): ?>
+					<form method="post" action="tools.php?page=photography-portfolio-migrate">
+						<?php wp_nonce_field( 'migrate_epp' ); ?>
+						<?php submit_button( 'Migrate' ); ?>
+					</form>
+				<?php else: ?>
+					<a class="button-primary disabled">Migrate</a>
+				<?php endif; ?>
+			</div> <!-- .eppmig-requirements -->
+
+		</div> <!-- wrap -->
 		<?php
 	}
 
 
-	/**
-	 * Register and add settings
-	 */
-	public function page_init() {
-
-		register_setting(
-			'my_option_group', // Option group
-			'my_option_name', // Option name
-			[ $this, 'sanitize' ] // Sanitize
-		);
-
-		add_settings_section(
-			'setting_section_id', // ID
-			'My Custom Settings', // Title
-			[ $this, 'print_section_info' ], // Callback
-			'my-setting-admin' // Page
-		);
-
-		add_settings_field(
-			'id_number', // ID
-			'ID Number', // Title
-			[ $this, 'id_number_callback' ], // Callback
-			'my-setting-admin', // Page
-			'setting_section_id' // Section
-		);
-
-		add_settings_field(
-			'title',
-			'Title',
-			[ $this, 'title_callback' ],
-			'my-setting-admin',
-			'setting_section_id'
-		);
-	}
-
-
-	/**
-	 * Sanitize each setting field as needed
-	 *
-	 * @param array $input Contains all settings fields as array keys
-	 */
-	public function sanitize( $input ) {
-
-		$new_input = [];
-		if ( isset( $input['id_number'] ) ) {
-			$new_input['id_number'] = absint( $input['id_number'] );
-		}
-
-		if ( isset( $input['title'] ) ) {
-			$new_input['title'] = sanitize_text_field( $input['title'] );
-		}
-
-		return $new_input;
-	}
-
-
-	/**
-	 * Print the Section text
-	 */
-	public function print_section_info() {
-
-		print 'Enter your settings below:';
-	}
-
-
-	/**
-	 * Get the settings option array and print one of its values
-	 */
-	public function id_number_callback() {
-
-		printf(
-			'<input type="text" id="id_number" name="my_option_name[id_number]" value="%s" />',
-			isset( $this->options['id_number'] ) ? esc_attr( $this->options['id_number'] ) : ''
-		);
-	}
-
-
-	/**
-	 * Get the settings option array and print one of its values
-	 */
-	public function title_callback() {
-
-		printf(
-			'<input type="text" id="title" name="my_option_name[title]" value="%s" />',
-			isset( $this->options['title'] ) ? esc_attr( $this->options['title'] ) : ''
-		);
-	}
-}
-
-if ( is_admin() ) {
-	$settings_page = new Settings_Page();
 }
