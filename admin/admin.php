@@ -22,6 +22,8 @@ class Settings_Page {
 	public function __construct( Migration_Requirements $requirements ) {
 
 		add_action( 'admin_menu', [ $this, 'add_plugin_page' ] );
+
+
 		$this->requirements = $requirements;
 
 
@@ -34,7 +36,7 @@ class Settings_Page {
 	public function add_plugin_page() {
 
 		// This page will be under "Settings"
-		add_submenu_page(
+		$submenu = add_submenu_page(
 			'tools.php',
 			'Migrate Easy Photography Portfolio',
 			'Migrate Portfolio',
@@ -42,6 +44,8 @@ class Settings_Page {
 			'photography-portfolio-migrate',
 			[ $this, 'create_admin_page' ]
 		);
+
+		add_action( 'admin_head-' . $submenu, [ $this, 'admin_style' ] );
 	}
 
 
@@ -59,9 +63,10 @@ class Settings_Page {
 
 	public function display_success_message() {
 
+
 		?>
 		<div class="wrap">
-			<div class="eppmig-success">
+			<div class="eppmig-success eppmig-panel">
 				<h1>Success!</h1>
 				<p>
 					<b>Migration was successful!</b><br>
@@ -69,14 +74,17 @@ class Settings_Page {
 
 				<h2>Final Steps</h2>
 				<p>
-					Now that the portfolio data has been migrated, there are 2 tiny little steps:
+					Now that the portfolio data has been migrated. Here are a few next steps
 				</p>
 				<ol>
-					<li> Delete the old portfolio plugin <?php do_action( 'eppmig_plugin_name' ) ?>
+					<li> Disable and Delete <b><?php echo apply_filters( 'eppmig_plugin_name', 'the old portfolio' ) ?></b> plugin
+					<li> Disable and Delete <b>Easy Photography Portfolio: Migrate</b> plugin
 					<li> Reset your permalinks. Go to <a href="<?php echo admin_url( 'options-permalink.php' ) ?>">Settings &rarr; Permalinks</a>
 						and
 						change the URL structure, save changes, and then change the URL structure back to where it was before
 				</ol>
+
+				<b>That's it! Enjoy the new Easy Photography Portfolio plugin!</b>
 			</div>
 
 		</div>
@@ -95,27 +103,27 @@ class Settings_Page {
 		<div class="wrap">
 			<h1>Easy Photography Portfolio: Migrate</h1>
 
-			<div class="eppmig-migration-instructions">
+			<div class="eppmig-migration-instructions eppmig-panel">
 
-				<h2>Backup your database!</h2>
+				<h2>⚠️ Backup your database!</h2>
 				<p>
 					Before you start the migration, it's highly recommended that you <b>backup your database first!</b><br>
 					Don't worry, it's highly unlikely that something will go wrong, but it's better to be safe than sorry!<br>
-
-					<br>
+				</p>
+				<p>
 					Install a plugin like <a href="https://wordpress.org/plugins/backwpup/">BackWPup</a> and backup your database.
-					Here is a complete <a href="http://go.colormelon.com/database-backup-tutorial">video tutorial
-						guide</a> how to use the plugin.
+					You can watch a complete <a href="http://go.colormelon.com/database-backup-tutorial">video tutorial
+						guide on YouTube</a> how to use the plugin.
+				</p>
 
-					<br>
-					Note, that you <b>don't have to backup files</b> - this migration isn't going to alter the files in any way, it's
-					going to convert only the database entries to Easy Photography Portfolio format.
-
+				<p>
+					Note, that you <b>don't have to backup files</b> - this migration isn't going to alter the files (images) in any way, it's
+					only going to the database entries to Easy Photography Portfolio format.
 				</p>
 
 			</div>
 
-			<div class="eppmig-requirements">
+			<div class="eppmig-requirements eppmig-panel">
 
 				<h2>Checking migration requirements...</h2>
 				<?php $this->requirements->show_requirements(); ?>
@@ -125,7 +133,7 @@ class Settings_Page {
 
 					<div class="eppmig-requirements__ready">
 						<p>
-							Ready to migrate when you are. Click the button below to begin migrating your posts!
+							Looks like everything is OK! Click the button below to begin migrating your posts!
 						</p>
 					</div>
 
@@ -136,7 +144,9 @@ class Settings_Page {
 
 					<script>
                         document.getElementById( 'eppmig-migrate' ).addEventListener( 'submit', function () {
-                            this.querySelector( '.button' ).setAttribute( 'disabled', true )
+                            var button = this.querySelector( '.button' )
+                            button.setAttribute( 'disabled', true )
+                            button.setAttribute( 'value', 'Migrating! Wait until the migration is complete...' )
                         } )
 					</script>
 				<?php else: ?>
@@ -149,4 +159,21 @@ class Settings_Page {
 	}
 
 
+	function admin_style() {
+
+		?>
+		<style>
+			.eppmig-panel {
+				background-color: white;
+				padding: 2rem;
+				margin-bottom: 2rem;
+				margin-top: 2rem;
+			}
+
+			.eppmig-panel li, .eppmig-requirements > div {
+				margin-bottom: .5rem;
+			}
+			
+		</style><?php
+	}
 }
