@@ -5,6 +5,7 @@ namespace Phormig\Migrate;
 
 
 class Migrate {
+	public  $migration_successful;
 	private $settings;
 
 
@@ -13,29 +14,33 @@ class Migrate {
 	 */
 	public function __construct( $settings ) {
 
-		$this->settings = $settings;
+		$this->settings             = $settings;
+		$this->migration_successful = false;
+
 	}
 
 
 	public function migrate() {
-		
-		// Make sure our post types exist
-		if ( ! post_type_exists( $this->settings['post_type'] ) || ! post_type_exists( 'phort_post' ) ) {
-			return false;
-		}
-
 
 		$this->migrate_portfolio_post_type();
 		$this->migrate_portfolio_categories();
 		$this->migrate_menu();
 
 
-		// Disable the old Portfolio Post Type
-		deactivate_plugins( $this->settings['plugin'] );
+		if ( ! empty( $this->settings['plugin'] ) ) {
+			// Disable the old Portfolio Post Type
+			deactivate_plugins( $this->settings['plugin'] );
+		}
 
-		// Double refresh rewrite rules
+
+		// TRIPLE refresh rewrite rules
 		flush_rewrite_rules( true );
 		flush_rewrite_rules( true );
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+
+		set_theme_mod( 'epp_has_migrated', true );
+
+		$this->migration_successful = true;
 
 		return true;
 	}
