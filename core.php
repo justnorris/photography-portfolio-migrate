@@ -8,14 +8,17 @@ use Phormig\Migrate\Requirements\Categories_To_migrate;
 use Phormig\Migrate\Requirements\Posts_To_Migrate;
 
 
-$settings = [
+$settings = apply_filters(
+	'phormig_settings',
+	[
 
-	'post_type'   => 'portfolio',
-	'taxonomy'    => 'portfolio_category',
-	'plugin'      => 'village-portfolio-post-type/village-portfolio-post-type.php',
-	'gallery_key' => 'village_gallery',
+		'post_type'   => 'portfolio',
+		'taxonomy'    => 'portfolio_category',
+		'plugin'      => 'village-portfolio-post-type/village-portfolio-post-type.php',
+		'gallery_key' => 'village_gallery',
 
-];
+	]
+);
 
 if ( is_admin() ) {
 
