@@ -38,9 +38,11 @@ class Migrate {
 		flush_rewrite_rules( true );
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 
-		set_theme_mod( 'epp_has_migrated', true );
-
+		// Migration successful!
 		$this->migration_successful = true;
+
+		// Deactivate self
+		deactivate_plugins( PHORMIG_PLUGIN_BASENAME );
 
 		return true;
 	}
