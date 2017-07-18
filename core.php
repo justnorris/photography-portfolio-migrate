@@ -20,8 +20,10 @@ require_once PHORMIG_ABSPATH . 'migrate/requirements/Categories_To_Migrate.php';
 
 $settings = [
 
-	'post_type' => 'portfolio',
-	'taxonomy'  => 'portfolio_category',
+	'post_type'   => 'portfolio',
+	'taxonomy'    => 'portfolio_category',
+	'plugin'      => 'village-portfolio-post-type/village-portfolio-post-type.php',
+	'gallery_key' => 'village_gallery',
 
 ];
 
@@ -32,12 +34,13 @@ $requirements = new Migration_Requirements(
 	[
 		new Posts_To_Migrate( $settings['post_type'] ),
 		new Categories_To_migrate( $settings['taxonomy'] ),
+
 	]
 );
 
 
 if ( is_admin() ) {
-	$migration = new Migrate();
+	$migration = new Migrate( $settings );
 
 	if ( $requirements->all_requirements_met()
 	     && ! empty( $_POST )

@@ -5,24 +5,27 @@ namespace Phormig\Migrate;
 
 
 class Migrate {
+	private $settings;
 
 
 	/**
 	 * Migrate constructor.
 	 */
-	public function __construct() {
+	public function __construct( $settings ) {
 
-		// Don't migrate on ajax
-		if ( ! is_admin() || defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return false;
-		}
+		$this->settings = $settings;
 	}
 
 
 	public function migrate() {
 
+		// Don't migrate on ajax
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
 		// Make sure our post types exist
-		if ( ! post_type_exists( 'portfolio' ) || ! post_type_exists( 'phort_post' ) ) {
+		if ( ! post_type_exists( $this->settings['post_type'] ) || ! post_type_exists( 'phort_post' ) ) {
 			return false;
 		}
 
@@ -33,7 +36,7 @@ class Migrate {
 
 
 		// Disable the old Portfolio Post Type
-		deactivate_plugins( 'village-portfolio-post-type/village-portfolio-post-type.php' );
+		deactivate_plugins( $this->settings['plugin'] );
 
 		// Double refresh rewrite rules
 		flush_rewrite_rules( true );
@@ -53,13 +56,13 @@ class Migrate {
 
 		$posts = get_posts(
 			[
-				'post_type'   => 'portfolio',
+				'post_type'   => $this->settings['post_type'],
 				'numberposts' => - 1,
 			]
 		);
 
 		foreach ( $posts as $post ) {
-			if ( $post->post_type === 'portfolio' ) {
+			if ( $post->post_type === $this->settings['post_type'] ) {
 
 				// Migrate Post Meta
 				$this->migrate_post_meta( $post );
@@ -82,7 +85,7 @@ class Migrate {
 
 		global $wpdb;
 
-		$wpdb->update( 'wp_term_taxonomy', [ 'taxonomy' => 'phort_post_category' ], [ 'taxonomy' => 'portfolio_category' ] );
+		$wpdb->update( 'wp_term_taxonomy', [ 'taxonomy' => 'phort_post_category' ], [ 'taxonomy' => $this->settings['taxonomy'] ] );
 
 
 	}
@@ -97,14 +100,14 @@ class Migrate {
 		$wpdb->update(
 			'wp_postmeta',
 			[ 'meta_value' => 'phort_post_category' ],
-			[ 'meta_value' => 'portfolio_category' ]
+			[ 'meta_value' => $this->settings['taxonomy'] ]
 		);
 
 		// Rename from `portfolio` to `phort_post`
 		$wpdb->update(
 			'wp_postmeta',
 			[ 'meta_value' => 'phort_post' ],
-			[ 'meta_value' => 'portfolio' ]
+			[ 'meta_value' => $this->settings['post_type'] ]
 		);
 
 
@@ -113,7 +116,7 @@ class Migrate {
 
 	public function migrate_post_meta( $post ) {
 
-		$image_ids = get_post_meta( $post->ID, 'village_gallery', true );
+		$image_ids = get_post_meta( $post->ID, $this->settings['gallery_key'], true );
 
 		/**
 		 * Convert to Photography Portfolio Format
