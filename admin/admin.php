@@ -3,6 +3,7 @@
 namespace Phormig\Admin;
 
 
+use Phormig\Migrate\Migrate;
 use Phormig\Migrate\Migration_Requirements;
 
 class Settings_Page {
@@ -14,12 +15,16 @@ class Settings_Page {
 	 * @var Migration_Requirements
 	 */
 	private $requirements;
+	/**
+	 * @var Migrate
+	 */
+	private $migrate;
 
 
 	/**
 	 * Start up
 	 */
-	public function __construct( Migration_Requirements $requirements ) {
+	public function __construct( Migration_Requirements $requirements, Migrate $migrate ) {
 
 		add_action( 'admin_menu', [ $this, 'add_plugin_page' ] );
 
@@ -27,6 +32,7 @@ class Settings_Page {
 		$this->requirements = $requirements;
 
 
+		$this->migrate = $migrate;
 	}
 
 
@@ -173,7 +179,7 @@ class Settings_Page {
 			.eppmig-panel li, .eppmig-requirements > div {
 				margin-bottom: .5rem;
 			}
-			
+
 		</style><?php
 	}
 }
