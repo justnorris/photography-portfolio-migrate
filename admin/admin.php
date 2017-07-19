@@ -72,7 +72,7 @@ class Settings_Page {
 
 		?>
 		<div class="wrap">
-			<div class="eppmig-success eppmig-panel">
+			<div class="phormig-success phormig-panel">
 				<h1>Success!</h1>
 				<p>
 					<b>Migration was successful!</b><br>
@@ -83,7 +83,7 @@ class Settings_Page {
 					Now that the portfolio data has been migrated. Here are a few next steps
 				</p>
 				<ol>
-					<li> Disable and Delete <b><?php echo apply_filters( 'eppmig_plugin_name', 'the old portfolio' ) ?></b> plugin
+					<li> Disable and Delete <b><?php echo apply_filters( 'phormig_plugin_name', 'the old portfolio' ) ?></b> plugin
 					<li> Disable and Delete <b>Easy Photography Portfolio: Migrate</b> plugin
 					<li> Reset your permalinks. Go to <a href="<?php echo admin_url( 'options-permalink.php' ) ?>">Settings &rarr; Permalinks</a>
 						and
@@ -109,7 +109,7 @@ class Settings_Page {
 		<div class="wrap">
 			<h1>Easy Photography Portfolio: Migrate</h1>
 
-			<div class="eppmig-migration-instructions eppmig-panel">
+			<div class="phormig-migration-instructions phormig-panel">
 
 				<h2>⚠️ Backup your database!</h2>
 				<p>
@@ -129,7 +129,7 @@ class Settings_Page {
 
 			</div>
 
-			<div class="eppmig-requirements eppmig-panel">
+			<div class="phormig-requirements phormig-panel">
 
 				<h2>Checking migration requirements...</h2>
 				<?php $this->requirements->show_requirements(); ?>
@@ -137,19 +137,19 @@ class Settings_Page {
 
 				<?php if ( $this->requirements->all_requirements_met() ): ?>
 
-					<div class="eppmig-requirements__ready">
+					<div class="phormig-requirements__ready">
 						<p>
 							Looks like everything is OK! Click the button below to begin migrating your posts!
 						</p>
 					</div>
 
-					<form id="eppmig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
+					<form id="phormig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
 						<?php wp_nonce_field( PHORMIG_NONCE_KEY ); ?>
 						<?php submit_button( 'Migrate to Easy Photography Portfolio', 'button-primary button-hero' ); ?>
 					</form>
 
 					<script>
-                        document.getElementById( 'eppmig-migrate' ).addEventListener( 'submit', function () {
+                        document.getElementById( 'phormig-migrate' ).addEventListener( 'submit', function () {
                             var button = this.querySelector( '.button' )
                             button.setAttribute( 'disabled', true )
                             button.setAttribute( 'value', 'Migrating! Wait until the migration is complete...' )
@@ -158,7 +158,7 @@ class Settings_Page {
 				<?php else: ?>
 					<a class="button-primary button-hero button-large disabled">Migrate to Easy Photography Portfolio</a>
 				<?php endif; ?>
-			</div> <!-- .eppmig-requirements -->
+			</div> <!-- .phormig-requirements -->
 
 		</div> <!-- wrap -->
 		<?php
@@ -169,14 +169,14 @@ class Settings_Page {
 
 		?>
 		<style>
-			.eppmig-panel {
+			.phormig-panel {
 				background-color: white;
 				padding: 2rem;
 				margin-bottom: 2rem;
 				margin-top: 2rem;
 			}
 
-			.eppmig-panel li {
+			.phormig-panel li {
 				margin-bottom: .5rem;
 			}
 
