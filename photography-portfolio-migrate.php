@@ -49,13 +49,7 @@ function phortmig_auto_deactivate() {
 			function () {
 
 				echo '<div class="error">';
-				echo wp_kses_post(
-					__(
-						'<p>You have to activate "Easy Photography Portfolio" before activating "Easy Photography Portfolio: Migrate" plugin. Please try again.</p>'
-						,
-						'photography-portfolio-migrate'
-					)
-				);
+				echo '<p>You have to activate "Easy Photography Portfolio" before activating "Easy Photography Portfolio: Migrate" plugin. Please try again.</p>';
 				echo '</div>';
 			}
 		);
