@@ -35,7 +35,7 @@ class Categories_To_migrate extends Requirement {
 			
 			<ol>
 				<li>Have you already migrated the portfolio? <br> Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
-				<li>Do you have <b>{$this->taxonomy}</b> post type posts? <br> You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
+				<li>Do you have any <b>{$this->taxonomy}</b> categories? <br> You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
 			</ol>
 		</div>
 		";

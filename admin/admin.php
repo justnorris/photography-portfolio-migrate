@@ -176,9 +176,47 @@ class Settings_Page {
 				margin-top: 2rem;
 			}
 
-			.eppmig-panel li, .eppmig-requirements > div {
+			.eppmig-panel li {
 				margin-bottom: .5rem;
 			}
+
+			.phormig-requirement {
+				padding: 1rem;
+				margin-bottom: .75rem;
+			}
+
+			.phormig-requirement--failed {
+				background-color: #f7f7f7;
+				padding-bottom: 0;
+			}
+
+			.phormig-requirement__title {
+				font-size: 1.05rem;
+			}
+
+			.phormig-condition-unmet {
+				padding: 1rem;
+				margin-left: .95rem;
+			}
+
+			.phormig-condition-unmet ol {
+				margin: 0;
+			}
+
+
+			.phormig-requirement .dashicons {
+				font-size: 1.75rem;
+				line-height: 1.2rem;
+				margin-right: .5rem;
+			}
+			.phormig-requirement .dashicons-yes {
+				color: green;
+			}
+
+			.phormig-requirement .dashicons-no {
+				color: red;
+			}
+
 
 		</style><?php
 	}

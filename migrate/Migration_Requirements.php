@@ -25,11 +25,18 @@ class Migration_Requirements {
 
 
 		foreach ( $this->requirements as $requirement ) {
-			$requirement_passes = $requirement->requirement_is_met;
-			$icon               = $this->icon( $requirement_passes );
 
-			echo "<div>";
-			echo "$icon {$requirement->title()}";
+			$requirement_passes  = $requirement->requirement_is_met;
+			$icon                = $this->icon( $requirement_passes );
+			$requirement_classes = 'phormig-requirement';
+
+			if ( ! $requirement_passes ) {
+				$requirement_classes .= ' phormig-requirement--failed';
+			}
+
+			echo "<div class='{$requirement_classes}'>";
+
+			echo "<div class='phormig-requirement__title'>$icon {$requirement->title()}</div>";
 
 			if ( ! $requirement_passes ) {
 				echo $requirement->instructions();
@@ -44,10 +51,10 @@ class Migration_Requirements {
 	public function icon( $bool ) {
 
 		if ( $bool ) {
-			return '✅';
+			return '<span class="dashicons dashicons-yes"></span>';
 		}
 
-		return '❌';
+		return '<span class="dashicons dashicons-no"></span>';
 
 	}
 
