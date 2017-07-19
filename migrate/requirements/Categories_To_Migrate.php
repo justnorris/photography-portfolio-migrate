@@ -34,7 +34,6 @@ class Categories_To_migrate extends Requirement {
 			</p>
 			
 			<ol>
-				<li>Make sure that the old version of the portfolio plugin is still active while migrating
 				<li>Have you already migrated the portfolio? Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
 				<li>Do you have <b>{$this->taxonomy}</b> post type posts? You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
 			</ol>
