@@ -16,8 +16,8 @@ class Posts_To_Migrate extends Requirement {
 	 */
 	public function __construct( $post_type ) {
 
-		parent::__construct();
 		$this->post_type = $post_type;
+		parent::__construct();
 	}
 
 
@@ -54,10 +54,12 @@ class Posts_To_Migrate extends Requirement {
 	public function check() {
 
 
-		return (
-			post_type_exists( $this->post_type )
-			&&
-			$this->get_entries() > 0
+		return $this->bool(
+			(
+				post_type_exists( $this->post_type )
+				&&
+				$this->get_entries() > 0
+			)
 		);
 	}
 

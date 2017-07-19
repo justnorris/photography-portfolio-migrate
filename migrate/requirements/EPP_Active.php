@@ -5,10 +5,6 @@ namespace Phormig\Migrate\Requirements;
 
 
 class EPP_Active extends Requirement {
-	/**
-	 * @var
-	 */
-	private $post_type;
 
 
 	public function instructions() {
@@ -33,12 +29,14 @@ class EPP_Active extends Requirement {
 	public function check() {
 
 
-		return (
-			post_type_exists( 'phort_post' )
-			&&
-			class_exists( 'Colormelon_Photography_Portfolio' )
-			&&
-			is_plugin_active( 'photography-portfolio/photography-portfolio.php' )
+		return $this->bool(
+			(
+				post_type_exists( 'phort_post' )
+				&&
+				class_exists( 'Colormelon_Photography_Portfolio' )
+				&&
+				is_plugin_active( 'photography-portfolio/photography-portfolio.php' )
+			)
 		);
 	}
 

@@ -19,6 +19,7 @@ class Old_Portfolio_Plugin_Is_Active extends Requirement {
 	public function __construct( $settings ) {
 
 		$this->settings = $settings;
+		parent::__construct();
 	}
 
 
@@ -43,10 +44,12 @@ class Old_Portfolio_Plugin_Is_Active extends Requirement {
 
 	public function check() {
 
-		return (
-			empty( $this->settings['plugin'] )
-			||
-			is_plugin_active( $this->settings['plugin'] )
+		return $this->bool(
+			(
+				empty( $this->settings['plugin'] )
+				||
+				is_plugin_active( $this->settings['plugin'] )
+			)
 		);
 	}
 

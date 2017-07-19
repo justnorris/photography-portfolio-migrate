@@ -120,6 +120,18 @@ class Migrate {
 
 		$image_ids = get_post_meta( $post->ID, $this->settings['gallery_key'], true );
 
+		if ( ! $image_ids ) {
+
+			?>
+
+			<div class="notice notice-warning">
+				Failed to migrate Gallery ID <?php echo $post->ID ?>: No images found in gallery
+			</div>
+
+			<?php
+
+			return false;
+		}
 		/**
 		 * Convert to Photography Portfolio Format
 		 */

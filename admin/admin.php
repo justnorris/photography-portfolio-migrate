@@ -90,7 +90,9 @@ class Settings_Page {
 						change the URL structure, save changes, and then change the URL structure back to where it was before
 				</ol>
 
-				<b>That's it! Enjoy the new Easy Photography Portfolio plugin!</b>
+				<b>That's it! Enjoy the new Easy Photography Portfolio plugin!</b><br>
+				<br>
+				<a href="<?php echo admin_url('plugins.php'); ?>">Go to Plugins Page &rarr;</a>
 			</div>
 
 		</div>
@@ -137,16 +139,17 @@ class Settings_Page {
 
 				<?php if ( $this->requirements->all_requirements_met() ): ?>
 
-					<div class="phormig-requirements__ready">
+					<div class="phormig-requirements__instructions">
 						<p>
-							Looks like everything is OK! Click the button below to begin migrating your posts!
+							Click the button below to migrate your portfolio!
 						</p>
-					</div>
 
-					<form id="phormig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
-						<?php wp_nonce_field( PHORMIG_NONCE_KEY ); ?>
-						<?php submit_button( 'Migrate to Easy Photography Portfolio', 'button-primary button-hero' ); ?>
-					</form>
+
+						<form id="phormig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
+							<?php wp_nonce_field( PHORMIG_NONCE_KEY ); ?>
+							<?php submit_button( 'Migrate to Easy Photography Portfolio', 'button-primary button-hero' ); ?>
+						</form>
+					</div>
 
 					<script>
                         document.getElementById( 'phormig-migrate' ).addEventListener( 'submit', function () {
@@ -156,7 +159,11 @@ class Settings_Page {
                         } )
 					</script>
 				<?php else: ?>
-					<a class="button-primary button-hero button-large disabled">Migrate to Easy Photography Portfolio</a>
+					<div class="phormig-requirements__instructions">
+						<p>Critical issues were found. Please fix the issues above before mgirating posts.</p>
+						<a class="button button-primary button-hero disabled">Migrate to Easy Photography Portfolio</a>
+					</div>
+
 				<?php endif; ?>
 			</div> <!-- .phormig-requirements -->
 
@@ -185,8 +192,13 @@ class Settings_Page {
 				margin-bottom: .75rem;
 			}
 
-			.phormig-requirement--failed {
-				background-color: #f7f7f7;
+			.phormig-requirement--fail {
+				border-left: #ff2f19 3px solid;
+				padding-bottom: 0;
+			}
+
+			.phormig-requirement--warn {
+				border-left: #ffb710 3px solid;
 				padding-bottom: 0;
 			}
 
@@ -196,25 +208,38 @@ class Settings_Page {
 
 			.phormig-condition-unmet {
 				padding: 1rem;
-				margin-left: .95rem;
+				margin-left: .85rem;
 			}
 
 			.phormig-condition-unmet ol {
 				margin: 0;
 			}
 
-
 			.phormig-requirement .dashicons {
-				font-size: 1.75rem;
+				font-size: 1.5rem;
 				line-height: 1.2rem;
-				margin-right: .5rem;
+				margin-right: .25rem;
 			}
+
 			.phormig-requirement .dashicons-yes {
-				color: green;
+				color: #2a8014;
 			}
 
 			.phormig-requirement .dashicons-no {
-				color: red;
+				color: #ff2f19;
+			}
+
+			.phormig-requirement .dashicons-warning {
+				color: #ffb710;
+			}
+
+			.phormig-requirements__instructions {
+				margin-top: 2rem;
+				margin-bottom: 2rem;
+			}
+
+			.phormig-requirements__instructions p {
+				font-size: 1.1rem;
 			}
 
 

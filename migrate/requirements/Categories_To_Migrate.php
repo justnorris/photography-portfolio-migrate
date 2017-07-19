@@ -14,10 +14,11 @@ class Categories_To_migrate extends Requirement {
 	/**
 	 * Categories_To_migrate constructor.
 	 */
-	public function __construct( $category_slug ) {
+	public function __construct( $category_slug = '' ) {
 
-		parent::__construct();
 		$this->taxonomy = $category_slug;
+		parent::__construct();
+
 	}
 
 
@@ -30,7 +31,6 @@ class Categories_To_migrate extends Requirement {
 		<div class='phormig-condition-unmet'>
 			<p>
 			<b>If you're not using portfolio categories</b> - you can ignore this warning! <br>
-			Looks like there are no portfolio categories to migrate in taxonomy <b>{$this->taxonomy}</b> <br>
 			</p>
 			
 			<ol>
@@ -46,17 +46,20 @@ class Categories_To_migrate extends Requirement {
 
 	public function title() {
 
-		$count = $this->get_term_count();
-		if ( $this->requirement_is_met ) {
+		$status = $this->requirement_status;
+
+		if ( $status == 'pass' ) {
+			$count = $this->get_term_count();
+
 			return "Existing portfolio category count: <b>{$count}</b> ";
 		}
 
-		if ( ! taxonomy_exists( $this->taxonomy ) ) {
+		if ( $status === 'fail' ) {
 			return "Taxonomy <b>{$this->taxonomy}</b> not found!";
 		}
 
-		if ( $this->get_term_count() === 0 ) {
-			return "Portfolio category count is <b>0</b>";
+		if ( $status === 'warn' ) {
+			return "You're missing portfolio categories in <b>{$this->taxonomy}</b>";
 		}
 
 
@@ -65,12 +68,23 @@ class Categories_To_migrate extends Requirement {
 
 	public function check() {
 
+		if ( empty( $this->taxonomy ) ) {
+			return $this->ignore();
 
-		return (
-			taxonomy_exists( $this->taxonomy )
-			&&
-			$this->get_term_count() > 0
-		);
+		}
+
+		if ( ! taxonomy_exists( $this->taxonomy ) ) {
+			return $this->fail();
+
+		}
+
+		if ( $this->get_term_count() == 0 ) {
+			return $this->warn();
+		}
+
+		return $this->pass();
+
+
 	}
 
 

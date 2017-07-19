@@ -6,7 +6,7 @@ namespace Phormig\Migrate\Requirements;
 
 abstract class Requirement {
 
-	public $requirement_is_met = false;
+	public $requirement_status = 'fail';
 
 
 	/**
@@ -14,7 +14,7 @@ abstract class Requirement {
 	 */
 	public function __construct() {
 
-		$this->requirement_is_met = $this->check();
+		$this->requirement_status = $this->check();
 	}
 
 
@@ -24,4 +24,37 @@ abstract class Requirement {
 	abstract public function title();
 
 
+	public function bool( $val ) {
+
+		if ( $val ) {
+			return $this->pass();
+		}
+
+		return $this->fail();
+
+	}
+
+
+	public function pass() {
+
+		return 'pass';
+	}
+
+
+	public function fail() {
+
+		return 'fail';
+	}
+
+
+	public function warn() {
+
+		return 'warn';
+	}
+
+
+	public function ignore() {
+
+		return 'ignore';
+	}
 }
