@@ -54,7 +54,12 @@ class Posts_To_Migrate extends Requirement {
 
 	public function check() {
 
-		return $this->get_entries() > 0;
+
+		return (
+			post_type_exists( $this->post_type )
+			&&
+			$this->get_entries() > 0
+		);
 	}
 
 
