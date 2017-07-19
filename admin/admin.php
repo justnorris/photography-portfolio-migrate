@@ -144,7 +144,7 @@ class Settings_Page {
 					</div>
 
 					<form id="eppmig-migrate" method="post" action="tools.php?page=photography-portfolio-migrate">
-						<?php wp_nonce_field( 'migrate_epp' ); ?>
+						<?php wp_nonce_field( PHORMIG_NONCE_KEY ); ?>
 						<?php submit_button( 'Migrate to Easy Photography Portfolio', 'button-primary button-hero' ); ?>
 					</form>
 

@@ -9,6 +9,8 @@ use Phormig\Migrate\Requirements\EPP_Active;
 use Phormig\Migrate\Requirements\Posts_To_Migrate;
 
 
+define('PHORMIG_NONCE_KEY', 'migrate_epp');
+
 $settings = apply_filters(
 	'phormig_settings',
 	[
@@ -54,17 +56,10 @@ $migration = new Migrate( $settings );
 /*
  * Check for $_POST Requests
  */
-if ( // Post request is set
-	! empty( $_POST )
-
-	// Has the correct admin referer nonce
-	&& check_admin_referer( 'migrate_epp' )
-
-	// Not doing ajax
-	&& false === ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-
-	// All the configuration requirements are met
-	&& $requirements->all_requirements_met()
+if (
+	$requirements->all_requirements_met()
+	&&
+	$migration->valid_post_request()
 ) {
 	$migration->migrate();
 }

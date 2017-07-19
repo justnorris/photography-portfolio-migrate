@@ -131,4 +131,19 @@ class Migrate {
 		update_post_meta( $post->ID, 'phort_gallery', $images );
 	}
 
+
+	public function valid_post_request() {
+
+		return (
+			// Post request is set
+			! empty( $_POST )
+
+			// Has the correct admin referer nonce
+			&& check_admin_referer( PHORMIG_NONCE_KEY )
+
+			// Not doing ajax
+			&& false === ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		);
+	}
+
 }
