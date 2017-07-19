@@ -29,13 +29,13 @@ class Categories_To_migrate extends Requirement {
 		return "
 		<div class='phormig-condition-unmet'>
 			<p>
-			<b>If you're not using portfolio categories</b> - you can ignore this warning!
+			<b>If you're not using portfolio categories</b> - you can ignore this warning! <br>
 			Looks like there are no portfolio categories to migrate in taxonomy <b>{$this->taxonomy}</b> <br>
 			</p>
 			
 			<ol>
-				<li>Have you already migrated the portfolio? Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
-				<li>Do you have <b>{$this->taxonomy}</b> post type posts? You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
+				<li>Have you already migrated the portfolio? <br> Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
+				<li>Do you have <b>{$this->taxonomy}</b> post type posts? <br> You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
 			</ol>
 		</div>
 		";

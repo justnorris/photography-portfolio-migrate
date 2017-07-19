@@ -33,8 +33,8 @@ class Posts_To_Migrate extends Requirement {
 			</p>
 			
 			<ol>
-				<li>Have you already migrated the portfolio? Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
-				<li>Do you have <b>{$this->post_type}</b> post type posts? You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
+				<li>Have you already migrated the portfolio?<br> Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
+				<li>Do you have <b>{$this->post_type}</b> post type posts? <br>You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
 			</ol>
 		</div>
 		";
