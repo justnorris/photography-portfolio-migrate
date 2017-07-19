@@ -27,18 +27,20 @@ class Categories_To_migrate extends Requirement {
 		$dynamic_url = admin_url( 'edit.php?taxonomy=' . $this->taxonomy );
 		$epp_url     = admin_url( 'edit.php?post_type=phort_post&taxonomy=phort_post_category' );
 
-		return "
-		<div class='phormig-condition-unmet'>
-			<p>
-			<b>If you're not using portfolio categories</b> - you can ignore this warning! <br>
-			</p>
-			
-			<ol>
+		$error = "<div class='phormig-condition-unmet'>";
+
+		if ( $this->requirement_status == 'warn' ) {
+			$error .= "<p><b>If you're not using portfolio categories</b> - you can ignore this warning!</p>";
+		}
+
+		$error .= "<ol>
 				<li>Have you already migrated the portfolio? <br> Check Easy Photography Portfolio posts: <a target='_blank' href='$epp_url'>{$epp_url}</a>
 				<li>Do you have any <b>{$this->taxonomy}</b> categories? <br> You can check here: <a target='_blank' href='$dynamic_url'>{$dynamic_url}</a>
 			</ol>
 		</div>
 		";
+
+		return $error;
 
 
 	}
