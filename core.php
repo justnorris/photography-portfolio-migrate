@@ -42,13 +42,16 @@ require_once PHORMIG_ABSPATH . 'migrate/requirements/Categories_To_Migrate.php';
  * Check the requirements
  */
 $requirements = new Migration_Requirements(
-	[
-		new EPP_Active(),
-		new Old_Portfolio_Plugin_Is_Active( $settings ),
-		new Posts_To_Migrate( $settings['post_type'] ),
-		new Categories_To_migrate( $settings['taxonomy'] ),
+	apply_filters(
+		'phormig_requirements',
+		[
+			new EPP_Active(),
+			new Old_Portfolio_Plugin_Is_Active( $settings ),
+			new Posts_To_Migrate( $settings['post_type'] ),
+			new Categories_To_migrate( $settings['taxonomy'] ),
 
-	]
+		]
+	)
 );
 
 /**
@@ -65,7 +68,9 @@ if (
 	&&
 	$migration->valid_post_request()
 ) {
+	do_action('phormig/before_migration');
 	$migration->migrate();
+	do_action('phormig/after_migration');
 }
 
 
