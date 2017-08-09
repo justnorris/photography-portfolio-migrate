@@ -90,7 +90,12 @@ class Migrate {
 			if ( $post->post_type === $this->settings['post_type'] ) {
 
 				// Migrate Post Meta
-				$this->migrate_post_meta( $post );
+				$this->migrate_post_gallery( $post );
+				$this->migrate_portfolio_subtitle( $post );
+
+
+				// Trigger migration hooks:
+				do_action( 'phormig_post_meta', $post, $this->settings );
 
 				// Migrate Post Type
 				$post->post_type = 'phort_post';
@@ -101,6 +106,18 @@ class Migrate {
 
 		}
 
+
+	}
+
+
+	public function migrate_portfolio_subtitle( $post ) {
+
+		$subtitle = get_post_meta( $post->ID, $this->settings['portfolio_subtitle_key'], true );
+
+		if ( empty( $subtitle ) ) {
+			return;
+		}
+		update_post_meta( $post->ID, 'phort_subtitle', $subtitle );
 
 	}
 
@@ -139,7 +156,7 @@ class Migrate {
 	}
 
 
-	public function migrate_post_meta( $post ) {
+	public function migrate_post_gallery( $post ) {
 
 		$image_ids = get_post_meta( $post->ID, $this->settings['gallery_key'], true );
 

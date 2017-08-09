@@ -16,11 +16,12 @@ $settings = apply_filters(
 	'phormig_settings',
 	[
 
-		'post_type'   => 'portfolio',
-		'taxonomy'    => 'portfolio_category',
-		'plugin'      => 'village-portfolio-post-type/village-portfolio-post-type.php',
-		'gallery_key' => 'village_gallery',
-		'plugin_name' => 'Village Portfolio Post Type',
+		'post_type'              => 'portfolio',
+		'taxonomy'               => 'portfolio_category',
+		'plugin'                 => 'village-portfolio-post-type/village-portfolio-post-type.php',
+		'gallery_key'            => 'village_gallery',
+		'portfolio_subtitle_key' => 'portfolio_subtitle',
+		'plugin_name'            => 'Village Portfolio Post Type',
 
 	]
 );
@@ -68,9 +69,9 @@ if (
 	&&
 	$migration->valid_post_request()
 ) {
-	do_action('phormig/before_migration');
+	do_action( 'phormig/before_migration' );
 	$migration->migrate();
-	do_action('phormig/after_migration');
+	do_action( 'phormig/after_migration' );
 }
 
 
