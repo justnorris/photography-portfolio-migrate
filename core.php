@@ -27,9 +27,6 @@ $settings = apply_filters(
 );
 
 
-require_once PHORMIG_ABSPATH . 'admin/admin.php';
-
-
 // Include Requirements
 require_once PHORMIG_ABSPATH . 'migrate/Migrate.php';
 require_once PHORMIG_ABSPATH . 'migrate/Migration_Requirements.php';
@@ -54,6 +51,9 @@ $requirements = new Migration_Requirements(
 		]
 	)
 );
+
+// Admin Area
+require_once PHORMIG_ABSPATH . 'admin/admin.php';
 
 /**
  * Create migration instance

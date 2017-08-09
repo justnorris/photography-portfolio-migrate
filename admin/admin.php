@@ -80,17 +80,14 @@ class Settings_Page {
 
 				<h2>Final Steps</h2>
 				<p>
-					Now that the portfolio data has been migrated. Here are a few next steps
+					Your portfolio has been migrated! Just two optional steps ahead:
 				</p>
 				<ol>
-					<li> Disable and Delete <b><?php echo apply_filters( 'phormig_plugin_name', 'the old portfolio' ) ?></b> plugin
-					<li> Disable and Delete <b>Easy Photography Portfolio: Migrate</b> plugin
-					<li> Reset your permalinks. Go to <a href="<?php echo admin_url( 'options-permalink.php' ) ?>">Settings &rarr; Permalinks</a>
-						and
-						change the URL structure, save changes, and then change the URL structure back to where it was before
+					<li> Delete <b><?php echo apply_filters( 'phormig_plugin_name', 'the old portfolio' ) ?></b> plugin
+					<li> Delete <b>Easy Photography Portfolio: Migrate</b> plugin
 				</ol>
 
-				<b>That's it! Enjoy the new Easy Photography Portfolio plugin!</b><br>
+				<b>That's it! Enjoy the new portfolio plugin!</b><br>
 				<br>
 				<a href="<?php echo admin_url('plugins.php'); ?>">Go to Plugins Page &rarr;</a>
 			</div>
@@ -120,7 +117,7 @@ class Settings_Page {
 				</p>
 				<p>
 					Install a plugin like <a href="https://wordpress.org/plugins/backwpup/">BackWPup</a> and backup your database.
-					You can watch a complete <a href="http://go.colormelon.com/database-backup-tutorial">video tutorial
+					You can watch a complete <a href="http://go.colormelon.com/bluebird-migration-tutorial">video tutorial
 						guide on YouTube</a> how to use the plugin.
 				</p>
 
@@ -155,7 +152,7 @@ class Settings_Page {
                         document.getElementById( 'phormig-migrate' ).addEventListener( 'submit', function () {
                             var button = this.querySelector( '.button' )
                             button.setAttribute( 'disabled', true )
-                            button.setAttribute( 'value', 'Migrating! Wait until the migration is complete...' )
+                            button.setAttribute( 'value', 'Migrating! Please wait until the migration is complete...' )
                         } )
 					</script>
 				<?php else: ?>
