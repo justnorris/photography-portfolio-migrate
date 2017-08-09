@@ -20,11 +20,34 @@ class Migrate {
 	}
 
 
+	public function delete_first_portfolio_entry() {
+
+
+		$title = 'First Portfolio Entry';
+		$posts = get_posts(
+			[
+				'name'        => $title,
+				'post_type'   => 'phort_post',
+				'post_status' => '',
+				'numberposts' => - 1,
+			]
+		);
+
+		if ( ! empty( $posts ) ) {
+			foreach ( $posts as $post ) {
+				wp_delete_post( $post->ID );
+			}
+		}
+
+	}
+
+
 	public function migrate() {
 
 		$this->migrate_portfolio_post_type();
 		$this->migrate_portfolio_categories();
 		$this->migrate_menu();
+		$this->delete_first_portfolio_entry();
 
 
 		if ( ! empty( $this->settings['plugin'] ) ) {
