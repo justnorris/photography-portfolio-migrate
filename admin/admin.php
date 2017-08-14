@@ -117,7 +117,7 @@ class Settings_Page {
 				</p>
 				<p>
 					Install a plugin like <a href="https://wordpress.org/plugins/backwpup/">BackWPup</a> and backup your database.
-					You can watch a complete <a href="http://go.colormelon.com/bluebird-migration-tutorial">video tutorial
+					You can watch a complete <a href="http://go.colormelon.com/migration-tutorial">video tutorial
 						guide on YouTube</a> how to use the plugin.
 				</p>
 
