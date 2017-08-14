@@ -1,11 +1,11 @@
 var
-    gulp = require('gulp'),
-    zip = require('gulp-zip')
+    gulp = require( 'gulp' ),
+    zip  = require( 'gulp-zip' )
 
 
-gulp.task('build', function () {
-    return gulp.src(['!node_modules', '!node_modules/**', '!gulpfile.js', 'package-lock.json', '*'])
+gulp.task( 'build', function () {
+    return gulp.src( [ '!node_modules', '!node_modules/**', '!gulpfile.js', '!package-lock.json', '*', '*/**' ], { base: '../' } )
 
-               .pipe(zip('photography-portfolio-migrate.zip'))
-               .pipe(gulp.dest('../'))
-});
+               .pipe( zip( 'photography-portfolio-migrate.zip' ) )
+               .pipe( gulp.dest( '../' ) )
+} )
